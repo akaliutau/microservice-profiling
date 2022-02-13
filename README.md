@@ -57,7 +57,7 @@ docker pull eu.gcr.io/$GOOGLE_CLOUD_PROJECT/worker:v1
 
 ```
 gcloud compute instances create-with-container worker-instance-1 \
-  --project=message-multi-processor \
+  --project=$GOOGLE_CLOUD_PROJECT \
   --zone=europe-west2-c \
   --machine-type=e2-micro \
   --network-interface=network-tier=PREMIUM,subnet=default \
@@ -70,7 +70,7 @@ gcloud compute instances create-with-container worker-instance-1 \
   --boot-disk-size=10GB \
   --boot-disk-type=pd-balanced \
   --boot-disk-device-name=worker-instance-1 \
-  --container-image=eu.gcr.io/message-multi-processor/worker:v1 \
+  --container-image=eu.gcr.io/$GOOGLE_CLOUD_PROJECT/worker:v1 \
   --container-restart-policy=always \
   --container-tty \
   --no-shielded-secure-boot \
@@ -84,7 +84,7 @@ compute service account
 The command should show the instance was created:
 
 ```
-Created [https://www.googleapis.com/compute/v1/projects/message-multi-processor/zones/europe-west2-c/instances/worker-instance-1].
+Created [https://www.googleapis.com/compute/v1/projects/GOOGLE_CLOUD_PROJECT/zones/europe-west2-c/instances/worker-instance-1].
 NAME               ZONE            MACHINE_TYPE  PREEMPTIBLE  INTERNAL_IP    EXTERNAL_IP    STATUS
 worker-instance-1  europe-west2-c  e2-micro                   10.154.15.219  34.142.95.167  RUNNING
 ```
@@ -92,7 +92,7 @@ worker-instance-1  europe-west2-c  e2-micro                   10.154.15.219  34.
 (3) Use port-forwarding for port=9010:
 
 ```
-gcloud compute ssh https://www.googleapis.com/compute/v1/projects/message-multi-processor/zones/europe-west2-c/instances/worker-instance-1 -- -L 9010:localhost:9010
+gcloud compute ssh https://www.googleapis.com/compute/v1/projects/$GOOGLE_CLOUD_PROJECT/zones/europe-west2-c/instances/worker-instance-1 -- -L 9010:localhost:9010
 ```
 
 (4) Go to File -> Add JMX Connection and create a new connection for localhost:9010, no authentication. 
